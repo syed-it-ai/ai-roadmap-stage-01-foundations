@@ -6,6 +6,10 @@ You sent three pieces of text to a real model and looked at `usage.prompt_tokens
 
 ## What's actually happening underneath that
 
+![BPE merge process, four steps from individual characters to the word "low"](./images/bpe_merge_process.png)
+
+*Each step merges whichever adjacent pair showed up most often in training. This is the actual algorithm, not a simplification, run here on a short example so every step fits on screen.*
+
 Text gets cut into chunks before a model ever sees it, using an algorithm called Byte Pair Encoding, BPE for short. It starts by treating every character as its own token, then repeatedly merges whichever pair of adjacent tokens shows up most often in a huge pile of training text, over and over, until it hits a target vocabulary size. GPT-style models land around 100,000 tokens in that vocabulary; common whole words get one token each, rare or made-up words get split into smaller, more familiar pieces.
 
 This is also exactly why your made-up word and your long number behaved differently from the plain sentence. A real word the tokenizer has seen a thousand times gets to be one token. A number like 48213967 gets split in a way that has nothing to do with place value, because the merge rule only ever cared about which byte sequences were common, never about what a number means.
