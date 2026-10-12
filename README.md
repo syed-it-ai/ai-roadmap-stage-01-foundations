@@ -62,6 +62,10 @@ The request format for each provider (Groq, Gemini) was written against each pro
 - Why sending the same prompt twice doesn't always give you the same answer, and why that has nothing to do with the model forgetting anything
 - The rough shape of what attention is doing, in plain terms, before you've seen the actual formula
 
+## Reading material
+
+The `reading/` folder has one file per topic — each one goes deeper on exactly what that topic's code demonstrates, with a short list of the best current resources on it. Read a topic's file before or after running its code; either order works.
+
 ## Next
 
 Stage 2 picks up the math this stage deliberately left out: the real attention formula, RoPE, and the loss functions behind fine-tuning. Nothing here needs to be memorized first, just understood once.
