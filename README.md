@@ -10,7 +10,9 @@ Before this stage, "LLM" is mostly a buzzword. After it, you should be able to l
 
 **topic_2_same_prompt_different_answers** — sends the exact same prompt several times and prints every answer side by side. It opens with a short offline demo showing that the request leaving your machine is byte-identical every call: no weights travel in either direction, so the model on call 2 is bit-for-bit the same model as on call 1. What you're watching in the live part is randomness in how the next word gets picked, not the model knowing something differently each time.
 
-**topic_3_attention_rough_shape** — the only one that runs with no internet and no API key at all. A small, deliberately made-up example (hand-written numbers, not real learned embeddings) showing the core shape of attention: compare a word against every other word, turn those comparisons into weights, use the weights to decide what to pay attention to. The real formula is saved for Stage 2 on purpose, this is just the shape of the idea.
+**topic_3_attention_rough_shape** — runs with no internet and no API key at all. A small, deliberately made-up example (hand-written numbers, not real learned embeddings) showing the core shape of attention: compare a word against every other word, turn those comparisons into weights, use the weights to decide what to pay attention to. The real formula is saved for Stage 2 on purpose, this is just the shape of the idea.
+
+**topic_4_mixture_of_experts** — also runs with no internet needed. A toy router with 8 experts, activating only 2 per token. This is the actual architecture behind `openai/gpt-oss-120b`, the model used throughout this stage, and it's why that model runs at roughly half the speed of the smaller one rather than six times slower.
 
 ## Before you start
 
@@ -40,9 +42,10 @@ Open `.env` and fill in `LLM_PROVIDER` and `LLM_API_KEY`. If you're using Ollama
 python3 src/topic_1_tokens_and_counting/main.py
 python3 src/topic_2_same_prompt_different_answers/main.py
 python3 src/topic_3_attention_rough_shape/main.py
+python3 src/topic_4_mixture_of_experts/main.py
 ```
 
-Topic 3 needs nothing else and will work immediately. Topics 1 and 2 need your API key to actually be valid, since they make real calls to a real provider. (Topic 2's opening demo — the part showing requests carry no weights — runs offline either way.)
+Topics 3 and 4 need nothing else and will work immediately. Topics 1 and 2 need your API key to actually be valid, since they make real calls to a real provider. (Topic 2's opening demo — the part showing requests carry no weights — runs offline either way.)
 
 ## Tests
 
@@ -50,7 +53,7 @@ Topic 3 needs nothing else and will work immediately. Topics 1 and 2 need your A
 pytest tests/
 ```
 
-Topic 3 has an automated test, and there's a small offline test of the shared client that runs it against a fake local HTTP server to check the request and response handling. Topics 1 and 2 call a live API, so they're meant to be run and read by eye, not asserted on in a test suite.
+Topic 3 has an automated test, and there's a small offline test of the shared client that runs it against a fake local HTTP server to check the request and response handling. Topic 4's router has a test too, since it's fully offline — it just checks the router picks exactly the top-2 scoring experts. Topics 1 and 2 call a live API, so they're meant to be run and read by eye, not asserted on in a test suite.
 
 ## A note on how this was built
 

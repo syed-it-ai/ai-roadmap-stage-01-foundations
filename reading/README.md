@@ -7,5 +7,6 @@ Read the file for a topic either before or after you run that topic's code. Both
 - [01_tokens_and_counting.md](./01_tokens_and_counting.md)
 - [02_same_prompt_different_answers.md](./02_same_prompt_different_answers.md)
 - [03_attention_rough_shape.md](./03_attention_rough_shape.md)
+- [04_mixture_of_experts.md](./04_mixture_of_experts.md)
 
 Resources are not repeated across stages. If something genuinely belongs in two places, it'll be linked once here and referenced by name later, not copy-pasted again.
