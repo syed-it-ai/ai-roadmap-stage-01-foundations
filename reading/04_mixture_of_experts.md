@@ -38,3 +38,15 @@ MoE isn't free capability. Three real costs:
 ## The one thing worth remembering
 
 "120 billion parameters" and "120 billion parameters doing work right now" are not the same claim once MoE is involved. Always ask which one a number is describing before comparing two models by parameter count alone.
+
+## The hospital version (same mechanism, plain words)
+
+![One token's journey: the router scores 128 experts, the top 4 activate, the rest sit idle](./images/moe_routing_flow.png)
+
+A hospital employs 8 specialists and pays all 8 salaries whether patients show up or not. That's the 117B total — the payroll, the memory footprint, roughly "how much the model can know." The triage nurse looks at each patient and sends them to just 2. That's the 5.1B active — the cost of *this* patient, the speed.
+
+The nurse never got a rulebook. Nobody hung nameplates on the doors. Each doctor just got good at whatever kept walking through their door — that's training. The router's weights and the experts all start random, and training slowly shifts them so that experts producing useful outputs for a kind of token get sent more of those tokens. Specialization emerges; it isn't assigned.
+
+One token, for real: "it" in "the trophy didn't fit in the suitcase because it was too big" is just a list of numbers. The router multiplies it by its weight matrix, gets 128 scores, and the top 4 experts light up — the other 124 do nothing. Their 4 outputs blend into one and go to the next layer. This repeats across all 36 layers, fresh for every token.
+
+The one dial: top-k, how many experts wake up per token. k=4 → 5.1B active, fast. k=128 → all 117B active, ~6x slower. Same weights on disk, totally different bill.
